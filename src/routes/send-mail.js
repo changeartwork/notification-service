@@ -11,6 +11,7 @@ Router.post('/send-mail',
     async (req, res) => {
         console.log(req.body)
         try {
+            let clientDetails = req.body.client;
             let transporter = nodemailer.createTransport({
                 host: 'smtp.zoho.com',
                 port: 465,
@@ -36,7 +37,10 @@ Router.post('/send-mail',
                 to: req.body.email,
                 cc: "admin@change.com.co",
                 subject: req.body.subject,
-                template: req.body.template_id
+                template: req.body.template_id,
+                context: {
+                    client: clientDetails
+                }
             };
 
             let info = await transporter.sendMail(mailOptions)
